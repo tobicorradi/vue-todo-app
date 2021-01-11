@@ -1,18 +1,19 @@
 <template>
   <div id="app">
     <div class="container">
-      <h1>Vue Todo App <span>by Tobias Corradi</span></h1>
-      <div class="search-box">
-        <form @submit="createTask" action="">
-          <input
-            class="search-box__input"
-            type="text"
-            v-model="taskText"
-            placeholder="Write your task here..."
-            autofocus
-          />
-        </form>
-      </div>
+      <h1>Vue To do App <span>by Tobias Corradi</span></h1>
+      <form class="search-box" @submit="createTask">
+        <input
+          class="search-box__input"
+          type="text"
+          v-model="taskText"
+          placeholder="Write your task here..."
+          autofocus
+        />
+        <button class="search-box__icon" type="submit">
+          <img src="./assets/add.png" alt="" />
+        </button>
+      </form>
       <div class="list">
         <div class="empty-list" v-if="!todoList.length">
           <img src="./assets/calendar.png" alt="" />
@@ -78,25 +79,18 @@ export default {
     return {
       taskText: "",
       totalTasks: 0,
-      todoList: [
-        {
-          text: "¡I am a task!",
-          isCompleted: false,
-          editing: false,
-        },
-        {
-          text: "I am a completed task",
-          isCompleted: true,
-          editing: false,
-        },
-      ],
+      todoList: [],
     };
   },
   methods: {
     createTask(e) {
       e.preventDefault();
       if (this.taskText != "" && this.taskText != null) {
-        this.todoList.unshift({ text: this.taskText, isCompleted: false });
+        this.todoList.unshift({
+          text: this.taskText,
+          isCompleted: false,
+          editing: false,
+        });
         this.taskText = "";
       }
     },
@@ -146,17 +140,28 @@ h1 span {
 .container {
   max-width: 400px;
   margin: 0 auto;
+  padding: 0 15px;
 }
 .search-box {
   margin-bottom: 30px;
+  position: relative;
 }
 .search-box__input {
   width: 100%;
   padding: 19px 30px;
   border: 0;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   font-size: 15px;
+  position: relative;
   border: 1px solid #f6f6f6;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.search-box__icon {
+  position: absolute;
+  background: none;
+  cursor: pointer;
+  right: 19px;
+  top: 14px;
+  border: 0;
 }
 .search-box__input:focus {
   outline: 0;
