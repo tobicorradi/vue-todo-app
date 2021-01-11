@@ -30,10 +30,25 @@
             :class="{ completed: task.isCompleted }"
             @click="task.isCompleted = !task.isCompleted"
           >
-            <p>{{ task.text }}</p>
-            <button @click="deleteTask(index)" class="delete-button">
-              Delete
-            </button>
+            <div>
+              <p v-if="!task.editing">{{ task.text }}</p>
+              <input
+                v-else
+                class="list__edit-input"
+                type="text"
+                v-model="task.text"
+                @blur="doneEditing(task)"
+                @keyup.enter="doneEditing(task)"
+              />
+            </div>
+            <div class="list__buttons">
+              <button @click="editTask(task)" class="btn edit-button">
+                Edit
+              </button>
+              <button @click="deleteTask(index)" class="btn delete-button">
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -52,10 +67,12 @@ export default {
         {
           text: "¡I am a task!",
           isCompleted: false,
+          editing: false,
         },
         {
           text: "I am a completed task",
           isCompleted: true,
+          editing: false,
         },
       ],
     };
@@ -70,6 +87,12 @@ export default {
     },
     deleteTask(index) {
       this.todoList.splice(index, 1);
+    },
+    editTask(task) {
+      task.editing = !task.editing;
+    },
+    doneEditing(task) {
+      task.editing = false;
     },
   },
 };
@@ -126,7 +149,8 @@ h1 span {
   margin-bottom: 10px;
   position: relative;
 }
-.list__singleTask p {
+.list__singleTask p,
+.list__edit-input {
   font-weight: bold;
   max-width: 203px;
   word-wrap: break-word;
@@ -144,12 +168,24 @@ h1 span {
   position: absolute;
   left: 0;
 }
-button.delete-button {
-  background-color: #eeeeee;
+.btn {
   border: 0;
   padding: 10px;
   border-radius: 4px;
   color: black;
+  cursor: pointer;
+}
+.delete-button {
+  background-color: #eeeeee;
+}
+.edit-button {
+  background-color: white;
+  margin-right: 15px;
+}
+.list__edit-input {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #e2e2e2;
 }
 .empty-list {
   margin-top: 53px;
