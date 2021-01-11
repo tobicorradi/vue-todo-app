@@ -46,18 +46,22 @@
                 v-else
                 class="list__edit-input"
                 type="text"
+                autofocus
                 v-model="task.text"
                 @blur="doneEditing(task)"
                 @keyup.enter="doneEditing(task)"
               />
             </div>
-            <div class="list__buttons">
+            <div v-if="!task.editing" class="list__buttons">
               <button @click="editTask(task)" class="btn edit-button">
                 Edit
               </button>
               <button @click="deleteTask(index)" class="btn delete-button">
                 Delete
               </button>
+            </div>
+            <div v-else class="list__accept-button">
+              <button @click="doneEditing(task)" class="btn">Confirm</button>
             </div>
           </div>
         </div>
@@ -100,6 +104,7 @@ export default {
     },
     editTask(task) {
       task.editing = !task.editing;
+      task.isCompleted = false;
     },
     doneEditing(task) {
       task.editing = false;
@@ -113,6 +118,9 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+*:focus {
+  outline: 0;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -164,10 +172,10 @@ h1 span {
 }
 .list__singleTask p,
 .list__edit-input {
-  font-weight: bold;
-  max-width: 203px;
-  word-wrap: break-word;
+  max-width: 185px;
   line-height: 21px;
+  font-weight: bold;
+  word-wrap: break-word;
 }
 .list__singleTask__text {
   display: flex;
