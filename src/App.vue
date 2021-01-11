@@ -28,10 +28,20 @@
             v-for="(task, index) in todoList"
             v-bind:key="task.index"
             :class="{ completed: task.isCompleted }"
-            @click="task.isCompleted = !task.isCompleted"
           >
-            <div>
-              <p v-if="!task.editing">{{ task.text }}</p>
+            <div class="list__singleTask__text">
+              <input
+                class="list__checkbox"
+                type="checkbox"
+                :checked="task.isCompleted"
+                @click="task.isCompleted = !task.isCompleted"
+              />
+              <p
+                v-if="!task.editing"
+                @click="task.isCompleted = !task.isCompleted"
+              >
+                {{ task.text }}
+              </p>
               <input
                 v-else
                 class="list__edit-input"
@@ -112,6 +122,9 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+input:not(:type[text]) {
+  cursor: pointer;
+}
 h1 {
   margin-bottom: 20px;
   font-size: 18px;
@@ -155,6 +168,15 @@ h1 span {
   max-width: 203px;
   word-wrap: break-word;
   line-height: 21px;
+}
+.list__singleTask__text {
+  display: flex;
+  align-items: center;
+}
+.list__checkbox {
+  margin-right: 13px;
+  width: 17px;
+  height: 17px;
 }
 .completed p {
   text-decoration: line-through;
