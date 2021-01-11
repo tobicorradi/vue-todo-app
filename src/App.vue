@@ -15,6 +15,7 @@
       </div>
       <div class="list">
         <div class="empty-list" v-if="!todoList.length">
+          <img src="./assets/calendar.png" alt="" />
           <p>There are no tasks</p>
         </div>
         <div v-else>
@@ -219,6 +220,10 @@ h1 span {
 }
 .empty-list {
   margin-top: 53px;
+}
+.empty-list p {
+  margin-top: 23px;
+  color: #717171;
 }
 .list__total-tasks {
   text-align: left;
