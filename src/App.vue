@@ -14,17 +14,27 @@
         </form>
       </div>
       <div class="list">
-        <div
-          class="list__singleTask"
-          v-for="(task, index) in todoList"
-          v-bind:key="task.text"
-          :class="{ completed: task.isCompleted }"
-          @click="task.isCompleted = !task.isCompleted"
-        >
-          <p>{{ task.text }}</p>
-          <button @click="deleteTask(index)" class="delete-button">
-            Delete
-          </button>
+        <div class="empty-list" v-if="!todoList.length">
+          <p>There are no tasks</p>
+        </div>
+        <div v-else>
+          <div class="list__total-tasks">
+            <p>
+              Total Tasks: <strong>{{ todoList.length }}</strong>
+            </p>
+          </div>
+          <div
+            class="list__singleTask"
+            v-for="(task, index) in todoList"
+            v-bind:key="task.index"
+            :class="{ completed: task.isCompleted }"
+            @click="task.isCompleted = !task.isCompleted"
+          >
+            <p>{{ task.text }}</p>
+            <button @click="deleteTask(index)" class="delete-button">
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -37,13 +47,14 @@ export default {
   data() {
     return {
       taskText: "",
+      totalTasks: 0,
       todoList: [
         {
           text: "¡I am a task!",
           isCompleted: false,
         },
         {
-          text: "Completed Task",
+          text: "I am a completed task",
           isCompleted: true,
         },
       ],
@@ -52,8 +63,10 @@ export default {
   methods: {
     createTask(e) {
       e.preventDefault();
-      this.todoList.unshift({ text: this.taskText, isCompleted: false });
-      this.taskText = "";
+      if (this.taskText != "" && this.taskText != null) {
+        this.todoList.unshift({ text: this.taskText, isCompleted: false });
+        this.taskText = "";
+      }
     },
     deleteTask(index) {
       this.todoList.splice(index, 1);
@@ -137,5 +150,12 @@ button.delete-button {
   padding: 10px;
   border-radius: 4px;
   color: black;
+}
+.empty-list {
+  margin-top: 53px;
+}
+.list__total-tasks {
+  text-align: left;
+  margin-bottom: 15px;
 }
 </style>
