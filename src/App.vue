@@ -20,10 +20,9 @@
           <p>There are no tasks</p>
         </div>
         <div v-else>
-          <div class="list__total-tasks">
-            <p>
-              Total Tasks: <strong>{{ todoList.length }}</strong>
-            </p>
+          <div class="list__check-all">
+            <input class="list__checkbox" type="checkbox" @click="checkAll()" />
+            <label for="">Check all</label>
           </div>
           <div
             class="list__singleTask"
@@ -104,6 +103,11 @@ export default {
     doneEditing(task) {
       task.editing = false;
     },
+    checkAll() {
+      this.todoList.forEach((task) => {
+        task.isCompleted = event.target.checked;
+      });
+    },
   },
 };
 </script>
@@ -118,27 +122,31 @@ export default {
   outline: 0;
 }
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  text-align: left;
   color: #2c3e50;
   margin-top: 60px;
 }
 input:not(:type[text]) {
   cursor: pointer;
 }
+h1,
+.empty-list {
+  text-align: center;
+}
 h1 {
   margin-bottom: 20px;
   font-size: 18px;
 }
 h1 span {
-  font-size: 10px;
-  color: #b9b9b9;
-  font-weight: 200;
+  font-size: 12px;
+  color: #adadad;
+  font-weight: 500;
 }
 .container {
-  max-width: 400px;
+  max-width: 480px;
   margin: 0 auto;
   padding: 0 15px;
 }
@@ -223,15 +231,17 @@ h1 span {
   font-size: 16px;
   border: 1px solid #e2e2e2;
 }
+.list__check-all {
+  display: flex;
+  align-items: center;
+  margin-bottom: 13px;
+  font-size: 13px;
+}
 .empty-list {
   margin-top: 53px;
 }
 .empty-list p {
   margin-top: 23px;
   color: #717171;
-}
-.list__total-tasks {
-  text-align: left;
-  margin-bottom: 15px;
 }
 </style>
